@@ -133,20 +133,19 @@ class _HorsesPageState extends State<HorsesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF8F7F3),
-
       body: SafeArea(
         bottom: false,
         child: Column(
           children: [
-            // -----------------------------------------------------------------
+            // =================================================================
             // HEADER
-            // -----------------------------------------------------------------
+            // =================================================================
 
             const _StableVitalsHeader(),
 
-            // -----------------------------------------------------------------
+            // =================================================================
             // PAGE CONTENT
-            // -----------------------------------------------------------------
+            // =================================================================
 
             Expanded(
               child: ListView(
@@ -171,10 +170,10 @@ class _HorsesPageState extends State<HorsesPage> {
 
                   Padding(
                     padding: const EdgeInsets.fromLTRB(
+                      11,
+                      7,
+                      11,
                       9,
-                      4,
-                      9,
-                      6,
                     ),
                     child: _SearchField(
                       onChanged: (value) {
@@ -191,7 +190,7 @@ class _HorsesPageState extends State<HorsesPage> {
 
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 9,
+                      horizontal: 11,
                     ),
                     child: _HorseDirectoryTable(
                       horses: filteredHorses,
@@ -205,26 +204,26 @@ class _HorsesPageState extends State<HorsesPage> {
                   // BOTTOM HELPER TEXT
                   // -----------------------------------------------------------
 
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 18),
 
                   const Center(
                     child: Text(
                       'Tap any horse to view full profile',
                       style: TextStyle(
-                        fontSize: 6.5,
+                        fontSize: 8,
                         color: Color(0xFF77746C),
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 65),
+                  const SizedBox(height: 100),
                 ],
               ),
             ),
           ],
         ),
       ),
-
     );
   }
 
@@ -236,8 +235,6 @@ class _HorsesPageState extends State<HorsesPage> {
     BuildContext context,
     Horse horse,
   ) {
-    // Change this route later if your horse profile route
-    // has a different path.
     context.push('/horses/${horse.id}');
   }
 }
@@ -252,22 +249,21 @@ class _StableVitalsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 58,
       width: double.infinity,
       color: const Color(0xFF063C20),
       padding: const EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 12,
       ),
       child: Row(
         children: [
-
-          // ===================================================================
+          // -------------------------------------------------------------------
           // HORSE LOGO
-          // ===================================================================
+          // -------------------------------------------------------------------
 
           SizedBox(
             width: 42,
-            height: 38,
+            height: 42,
             child: Image.asset(
               'assets/images/stable_vitals_header_logo.png',
               fit: BoxFit.contain,
@@ -279,41 +275,40 @@ class _StableVitalsHeader extends StatelessWidget {
                 return const Icon(
                   Icons.pets_outlined,
                   color: Color(0xFFD3A83F),
-                  size: 25,
+                  size: 27,
                 );
               },
             ),
           ),
 
-            const Spacer(),
+          const SizedBox(width: 55),
 
+          // -------------------------------------------------------------------
+          // STABLE VITALS
+          // -------------------------------------------------------------------
 
-          // ===================================================================
-          // STABLE VITALS TEXT
-          // ===================================================================
-
-           Text(
+          const Text(
             'STABLE VITALS',
             style: TextStyle(
               color: Color(0xFFD3A83F),
-              fontSize: 17,
+              fontSize: 18,
               fontFamily: 'serif',
-              fontWeight: FontWeight.w400,
-              letterSpacing: .3,
+              fontWeight: FontWeight.w500,
+              letterSpacing: .4,
             ),
           ),
 
           const Spacer(),
 
-          // ===================================================================
+          // -------------------------------------------------------------------
           // NOTIFICATION
-          // ===================================================================
+          // -------------------------------------------------------------------
 
           IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
-              minWidth: 34,
-              minHeight: 34,
+              minWidth: 40,
+              minHeight: 40,
             ),
             onPressed: () {
               context.go('/alerts');
@@ -321,7 +316,7 @@ class _StableVitalsHeader extends StatelessWidget {
             icon: const Icon(
               Icons.notifications_none_rounded,
               color: Color(0xFFD7AF4B),
-              size: 21,
+              size: 25,
             ),
           ),
         ],
@@ -329,6 +324,7 @@ class _StableVitalsHeader extends StatelessWidget {
     );
   }
 }
+
 
 // =============================================================================
 // DIRECTORY HEADER
@@ -342,16 +338,16 @@ class _DirectoryHeader extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.fromLTRB(
         12,
-        7,
-        9,
-        1,
+        12,
+        11,
+        3,
       ),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           'Horses Directory',
           style: TextStyle(
-            fontSize: 18,
+            fontSize: 23,
             height: 1.1,
             fontWeight: FontWeight.w800,
             color: Color(0xFF173F27),
@@ -374,34 +370,40 @@ class _BarnInformation extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.fromLTRB(
         12,
-        2,
-        9,
         4,
+        11,
+        7,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Barn
+          // ===================================================================
+          // BARN
+          // ===================================================================
+
           Text(
             'Rancho Santa Fe Barn',
             style: TextStyle(
-              fontSize: 7.5,
+              fontSize: 9.5,
               height: 1.1,
               color: Color(0xFF55534D),
               fontWeight: FontWeight.w500,
             ),
           ),
 
-          SizedBox(height: 3),
+          SizedBox(height: 5),
 
-          // Date / time + weather
+          // ===================================================================
+          // DATE / TIME + WEATHER
+          // ===================================================================
+
           Row(
             children: [
               Expanded(
                 child: Text(
                   'TUE AUG 4 • 2:18 PM PDT • BARN LOCAL',
                   style: TextStyle(
-                    fontSize: 6.7,
+                    fontSize: 8.2,
                     color: Color(0xFF64625B),
                     fontWeight: FontWeight.w500,
                   ),
@@ -409,17 +411,17 @@ class _BarnInformation extends StatelessWidget {
               ),
 
               SizedBox(
-                height: 18,
+                height: 27,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Color(0xFFC48A1B),
                     borderRadius: BorderRadius.all(
-                      Radius.circular(3),
+                      Radius.circular(5),
                     ),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: 6,
+                      horizontal: 9,
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -427,14 +429,14 @@ class _BarnInformation extends StatelessWidget {
                         Icon(
                           Icons.wb_sunny_outlined,
                           color: Colors.white,
-                          size: 9,
+                          size: 13,
                         ),
-                        SizedBox(width: 3),
+                        SizedBox(width: 5),
                         Text(
                           '102°F • AQI 148',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 6.2,
+                            fontSize: 8,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -446,43 +448,46 @@ class _BarnInformation extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 3),
+          SizedBox(height: 5),
 
-          // Count / update / online
+          // ===================================================================
+          // COUNT / UPDATE / ONLINE
+          // ===================================================================
+
           Row(
             children: [
               Text(
                 '8 horses',
                 style: TextStyle(
-                  fontSize: 6.6,
+                  fontSize: 8,
                   color: Color(0xFF64625B),
                 ),
               ),
-              SizedBox(width: 6),
+              SizedBox(width: 8),
               Icon(
                 Icons.circle,
-                size: 3.5,
+                size: 5,
                 color: Color(0xFF267441),
               ),
-              SizedBox(width: 3),
+              SizedBox(width: 4),
               Text(
                 'Updated 2:18 PM PDT',
                 style: TextStyle(
-                  fontSize: 6.6,
+                  fontSize: 8,
                   color: Color(0xFF64625B),
                 ),
               ),
-              SizedBox(width: 6),
+              SizedBox(width: 8),
               Icon(
                 Icons.circle,
-                size: 3.5,
+                size: 5,
                 color: Color(0xFF267441),
               ),
-              SizedBox(width: 3),
+              SizedBox(width: 4),
               Text(
                 'Online',
                 style: TextStyle(
-                  fontSize: 6.6,
+                  fontSize: 8,
                   color: Color(0xFF64625B),
                 ),
               ),
@@ -508,47 +513,47 @@ class _SearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 28,
+      height: 42,
       child: TextField(
         onChanged: onChanged,
         style: const TextStyle(
-          fontSize: 8,
+          fontSize: 10,
           color: Color(0xFF33332F),
         ),
         cursorColor: const Color(0xFF174C30),
         decoration: InputDecoration(
           hintText: 'Search horses',
           hintStyle: const TextStyle(
-            fontSize: 8,
+            fontSize: 10,
             color: Color(0xFF9A978F),
           ),
           prefixIcon: const Icon(
             Icons.search_rounded,
-            size: 14,
+            size: 19,
             color: Color(0xFF817E76),
           ),
           prefixIconConstraints: const BoxConstraints(
-            minWidth: 29,
-            minHeight: 28,
+            minWidth: 39,
+            minHeight: 42,
           ),
           contentPadding: const EdgeInsets.symmetric(
             vertical: 0,
-            horizontal: 6,
+            horizontal: 8,
           ),
           filled: true,
           fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(7),
             borderSide: const BorderSide(
               color: Color(0xFFD8D6CF),
-              width: .7,
+              width: .8,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5),
+            borderRadius: BorderRadius.circular(7),
             borderSide: const BorderSide(
               color: Color(0xFF174C30),
-              width: .8,
+              width: 1,
             ),
           ),
         ),
@@ -572,35 +577,59 @@ class _HorseDirectoryTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
-        border: Border.all(
-          color: const Color(0xFFE0DED7),
-          width: .7,
-        ),
-      ),
-      child: Column(
-        children: [
-          // -------------------------------------------------------------------
-          // TABLE HEADER
-          // -------------------------------------------------------------------
-
-          const _TableHeader(),
-
-          // -------------------------------------------------------------------
-          // HORSE ROWS
-          // -------------------------------------------------------------------
-
-          for (int index = 0; index < horses.length; index++)
-            _HorseDirectoryRow(
-              horse: horses[index],
-              onTap: () {
-                onHorseTap(horses[index]);
-              },
+    return Padding(
+      padding: const EdgeInsets.all(2.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(
+            color: const Color(0xFFE0DED7),
+            width: .8,
+          ),
+          boxShadow: const [
+            BoxShadow(
+              color: Color(0x10000000),
+              blurRadius: 5,
+              offset: Offset(0, 2),
             ),
-        ],
+          ],
+        ),
+        child: Column(
+          children: [
+            // ===================================================================
+            // TABLE HEADER
+            // ===================================================================
+      
+            const _TableHeader(),
+      
+            // ===================================================================
+            // HORSE ROWS
+            // ===================================================================
+      
+            if (horses.isEmpty)
+              const SizedBox(
+                height: 90,
+                child: Center(
+                  child: Text(
+                    'No horses found',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(0xFF77746C),
+                    ),
+                  ),
+                ),
+              ),
+      
+            for (int index = 0; index < horses.length; index++)
+              _HorseDirectoryRow(
+                horse: horses[index],
+                onTap: () {
+                  onHorseTap(horses[index]);
+                },
+              ),
+          ],
+        ),
       ),
     );
   }
@@ -616,81 +645,93 @@ class _TableHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 31,
+      height: 43,
       padding: const EdgeInsets.symmetric(
-        horizontal: 7,
+        horizontal: 10,
       ),
       decoration: const BoxDecoration(
         color: Color(0xFFFBFAF7),
         borderRadius: BorderRadius.vertical(
-          top: Radius.circular(6),
+          top: Radius.circular(8),
         ),
       ),
       child: Row(
         children: [
+          // ===================================================================
           // STALL
+          // ===================================================================
+
           SizedBox(
-            width: 41,
+            width: 54,
             child: Row(
               children: [
                 const Text(
                   'STALL',
                   style: TextStyle(
-                    fontSize: 6.5,
+                    fontSize: 10,
                     fontWeight: FontWeight.w800,
                     color: Color(0xFF375344),
                   ),
                 ),
-                const SizedBox(width: 2),
+                const SizedBox(width: 3),
                 const Icon(
                   Icons.arrow_upward_rounded,
-                  size: 7,
+                  size: 10,
                   color: Color(0xFFBD8120),
                 ),
               ],
             ),
           ),
 
+          // ===================================================================
           // NAME
+          // ===================================================================
+
           const Expanded(
             flex: 2,
             child: Text(
               'NAME',
               style: TextStyle(
-                fontSize: 6.5,
+                fontSize: 10,
                 fontWeight: FontWeight.w800,
                 color: Color(0xFF375344),
               ),
             ),
           ),
 
+          // ===================================================================
           // STATUS
+          // ===================================================================
+
           const Expanded(
             flex: 2,
             child: Text(
               'STATUS',
               style: TextStyle(
-                fontSize: 6.5,
+                fontSize: 10,
                 fontWeight: FontWeight.w800,
                 color: Color(0xFF375344),
               ),
             ),
           ),
 
+          // ===================================================================
           // INTAKE
+          // ===================================================================
+
           const Expanded(
-            flex: 3,
+            flex: 2,
             child: Text(
               'INTAKE',
               style: TextStyle(
-                fontSize: 6.5,
+                fontSize: 10,
                 fontWeight: FontWeight.w800,
                 color: Color(0xFF375344),
               ),
             ),
           ),
 
-          const SizedBox(width: 12),
+          const SizedBox(width: 21),
         ],
       ),
     );
@@ -717,39 +758,39 @@ class _HorseDirectoryRow extends StatelessWidget {
       child: InkWell(
         onTap: onTap,
         child: Container(
-          height: 31,
+          height: 57,
           padding: const EdgeInsets.symmetric(
-            horizontal: 7,
+            horizontal: 10,
           ),
           decoration: const BoxDecoration(
             border: Border(
               top: BorderSide(
                 color: Color(0xFFE8E6E0),
-                width: .6,
+                width: .7,
               ),
             ),
           ),
           child: Row(
             children: [
-              // ----------------------------------------------------------------
+              // =================================================================
               // STALL
-              // ----------------------------------------------------------------
+              // =================================================================
 
               SizedBox(
-                width: 41,
+                width: 48,
                 child: Text(
                   horse.stall,
                   style: const TextStyle(
-                    fontSize: 7.5,
+                    fontSize: 9.5,
                     color: Color(0xFF47463F),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
 
-              // ----------------------------------------------------------------
+              // =================================================================
               // NAME
-              // ----------------------------------------------------------------
+              // =================================================================
 
               Expanded(
                 flex: 2,
@@ -758,16 +799,16 @@ class _HorseDirectoryRow extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 7.5,
+                    fontSize: 10,
                     color: Color(0xFF282822),
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
 
-              // ----------------------------------------------------------------
+              // =================================================================
               // STATUS
-              // ----------------------------------------------------------------
+              // =================================================================
 
               Expanded(
                 flex: 2,
@@ -779,37 +820,40 @@ class _HorseDirectoryRow extends StatelessWidget {
                 ),
               ),
 
-
-              Spacer(),
-
-              // ----------------------------------------------------------------
+              // =================================================================
               // INTAKE
-              // ----------------------------------------------------------------
+              // =================================================================
 
               Expanded(
                 flex: 3,
-                child: Text(
-                  '${horse.todayWater.toStringAsFixed(1)} / '
-                  '${horse.rolling24Hours.toStringAsFixed(1)}–'
-                  '${horse.usualMax.toStringAsFixed(1)} gal',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 6.8,
-                    color: Color(0xFF55534D),
-                    fontWeight: FontWeight.w500,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    '${horse.todayWater.toStringAsFixed(1)} / '
+                    '${horse.rolling24Hours.toStringAsFixed(1)}–'
+                    '${horse.usualMax.toStringAsFixed(1)} gal',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 8.2,
+                      color: Color(0xFF55534D),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),
 
-              // ----------------------------------------------------------------
+              // =================================================================
               // CHEVRON
-              // ----------------------------------------------------------------
+              // =================================================================
 
-              const Icon(
-                Icons.chevron_right_rounded,
-                size: 15,
-                color: Color(0xFF185033),
+              const Padding(
+                padding: EdgeInsets.only(left: 5),
+                child: Icon(
+                  Icons.chevron_right_rounded,
+                  size: 21,
+                  color: Color(0xFF185033),
+                ),
               ),
             ],
           ),
@@ -853,20 +897,20 @@ class _StatusBadge extends StatelessWidget {
     }
 
     return Container(
-      height: 14,
+      height: 21,
       padding: const EdgeInsets.symmetric(
-        horizontal: 5,
+        horizontal: 7,
       ),
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: background,
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Text(
         text,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 5.3,
+          fontSize: 7,
           height: 1,
           fontWeight: FontWeight.w800,
           letterSpacing: .1,
@@ -875,5 +919,3 @@ class _StatusBadge extends StatelessWidget {
     );
   }
 }
-
-

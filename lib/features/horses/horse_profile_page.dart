@@ -518,22 +518,21 @@ class _StableVitalsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 50,
+      height: 58,
       width: double.infinity,
       color: const Color(0xFF063C20),
       padding: const EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 12,
       ),
       child: Row(
         children: [
-
-          // ===================================================================
+          // -------------------------------------------------------------------
           // HORSE LOGO
-          // ===================================================================
+          // -------------------------------------------------------------------
 
           SizedBox(
             width: 42,
-            height: 38,
+            height: 42,
             child: Image.asset(
               'assets/images/stable_vitals_header_logo.png',
               fit: BoxFit.contain,
@@ -545,41 +544,40 @@ class _StableVitalsHeader extends StatelessWidget {
                 return const Icon(
                   Icons.pets_outlined,
                   color: Color(0xFFD3A83F),
-                  size: 25,
+                  size: 27,
                 );
               },
             ),
           ),
 
-            const Spacer(),
+          const SizedBox(width: 55),
 
+          // -------------------------------------------------------------------
+          // STABLE VITALS
+          // -------------------------------------------------------------------
 
-          // ===================================================================
-          // STABLE VITALS TEXT
-          // ===================================================================
-
-           Text(
+          const Text(
             'STABLE VITALS',
             style: TextStyle(
               color: Color(0xFFD3A83F),
-              fontSize: 17,
+              fontSize: 18,
               fontFamily: 'serif',
-              fontWeight: FontWeight.w400,
-              letterSpacing: .3,
+              fontWeight: FontWeight.w500,
+              letterSpacing: .4,
             ),
           ),
 
           const Spacer(),
 
-          // ===================================================================
+          // -------------------------------------------------------------------
           // NOTIFICATION
-          // ===================================================================
+          // -------------------------------------------------------------------
 
           IconButton(
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(
-              minWidth: 34,
-              minHeight: 34,
+              minWidth: 40,
+              minHeight: 40,
             ),
             onPressed: () {
               context.go('/alerts');
@@ -587,7 +585,7 @@ class _StableVitalsHeader extends StatelessWidget {
             icon: const Icon(
               Icons.notifications_none_rounded,
               color: Color(0xFFD7AF4B),
-              size: 21,
+              size: 25,
             ),
           ),
         ],
@@ -595,6 +593,7 @@ class _StableVitalsHeader extends StatelessWidget {
     );
   }
 }
+
 
 // =============================================================================
 // BACK BUTTON
