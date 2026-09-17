@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tabler_icons/tabler_icons.dart';
 
 class AppBottomNavigation extends StatelessWidget {
   final int currentIndex;
@@ -25,32 +26,34 @@ class AppBottomNavigation extends StatelessWidget {
               _NavItem(
                 index: 0,
                 currentIndex: currentIndex,
-                icon: Icons.home_outlined,
-                selectedIcon: Icons.home_rounded,
-                label: 'Home',
+                icon: TablerIcons.home,
+                selectedIcon: TablerIcons.home,
+                label: 'Barn',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 1,
                 currentIndex: currentIndex,
-                icon: Icons.notifications_none_rounded,
-                selectedIcon: Icons.notifications_rounded,
+                icon: TablerIcons.bell,
+                selectedIcon: TablerIcons.bell,
                 label: 'Alerts',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 2,
                 currentIndex: currentIndex,
-                icon: Icons.pets_outlined,
-                selectedIcon: Icons.pets_rounded,
+                icon: TablerIcons.horse_toy,
+                // No filled variant exists for "horse" in Tabler,
+                // so the same glyph is reused for the selected state.
+                selectedIcon: TablerIcons.horse_toy,
                 label: 'Horses',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 3,
                 currentIndex: currentIndex,
-                icon: Icons.settings_outlined,
-                selectedIcon: Icons.settings_rounded,
+                icon: TablerIcons.settings,
+                selectedIcon: TablerIcons.settings_filled,
                 label: 'Settings',
                 onTap: onDestinationSelected,
               ),
@@ -93,7 +96,7 @@ class _NavItem extends StatelessWidget {
           children: [
             Icon(
               selected ? selectedIcon : icon,
-              size: 19,
+              size: selected ? 21 : 19,
               color: selected
                   ? const Color(0xFFD4A83E)
                   : const Color(0xFFB8BDB5),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:stable_vitals/models/horse.dart';
@@ -88,17 +89,26 @@ class AlertsPage extends StatelessWidget {
   // ===========================================================================
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+Widget build(BuildContext context) {
+  return AnnotatedRegion<SystemUiOverlayStyle>(
+    value: SystemUiOverlayStyle.light,
+    child: Scaffold(
       backgroundColor: const Color(0xFFF8F7F2),
 
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            const _StableVitalsHeader(),
+      body: Column(
+        children: [
+          Container(
+            color: const Color(0xFF063C20),
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).padding.top,
+            ),
+            child: const _StableVitalsHeader(),
+          ),
 
-            Expanded(
+          Expanded(
+            child: SafeArea(
+              top: false,
+              bottom: false,
               child: ListView(
                 physics: const BouncingScrollPhysics(),
                 padding: EdgeInsets.zero,
@@ -133,11 +143,12 @@ class AlertsPage extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
 
 // =============================================================================
@@ -150,7 +161,7 @@ class _StableVitalsHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 58,
+      height: 54,
       width: double.infinity,
       color: const Color(0xFF063C20),
       padding: const EdgeInsets.symmetric(
@@ -162,40 +173,45 @@ class _StableVitalsHeader extends StatelessWidget {
           // HORSE LOGO
           // -------------------------------------------------------------------
 
-          SizedBox(
-            width: 42,
-            height: 42,
-            child: Image.asset(
-              'assets/images/stable_vitals_header_logo.png',
-              fit: BoxFit.contain,
-              errorBuilder: (
-                context,
-                error,
-                stackTrace,
-              ) {
-                return const Icon(
-                  Icons.pets_outlined,
-                  color: Color(0xFFD3A83F),
-                  size: 27,
-                );
-              },
-            ),
-          ),
-
-          const SizedBox(width: 55),
+         Padding(
+           padding: const EdgeInsets.only(top: 8),
+           child: SizedBox(
+                width: 90,
+                height: 90,
+                child: Image.asset(
+                  'assets/images/stable_vitals_logo_wide_1024.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (
+                    context,
+                    error,
+                    stackTrace,
+                  ) {
+                    return const Icon(
+                      Icons.pets_outlined,
+                      color: Color(0xFFD3A83F),
+                      size: 27,
+                    );
+                  },
+                ),
+              ),
+         ),
+          const SizedBox(width: 8),
 
           // -------------------------------------------------------------------
           // STABLE VITALS
           // -------------------------------------------------------------------
 
-          const Text(
-            'STABLE VITALS',
-            style: TextStyle(
-              color: Color(0xFFD3A83F),
-              fontSize: 18,
-              fontFamily: 'serif',
-              fontWeight: FontWeight.w500,
-              letterSpacing: .4,
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: const Text(
+              'STABLE VITALS',
+              style: TextStyle(
+                color: Color(0xFFD3A83F),
+                fontSize: 24,
+                fontFamily: 'serif',
+                fontWeight: FontWeight.w500,
+                letterSpacing: .3,
+              ),
             ),
           ),
 
@@ -205,19 +221,22 @@ class _StableVitalsHeader extends StatelessWidget {
           // NOTIFICATION
           // -------------------------------------------------------------------
 
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(
-              minWidth: 40,
-              minHeight: 40,
-            ),
-            onPressed: () {
-              context.go('/alerts');
-            },
-            icon: const Icon(
-              Icons.notifications_none_rounded,
-              color: Color(0xFFD7AF4B),
-              size: 25,
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(
+                minWidth: 40,
+                minHeight: 40,
+              ),
+              onPressed: () {
+                context.go('/alerts');
+              },
+              icon: const Icon(
+                Icons.notifications_none,
+                color: Color(0xFFD7AF4B),
+                size: 25,
+              ),
             ),
           ),
         ],
