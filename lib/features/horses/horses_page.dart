@@ -19,9 +19,9 @@ class _HorsesPageState extends State<HorsesPage> {
 
   final List<Horse> horses = const [
     Horse(
-      id: '1',
+      id: '8',
       name: 'Toby',
-      stall: '1',
+      stall: '8',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 3.0,
@@ -41,9 +41,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 6.8,
     ),
     Horse(
-      id: '3',
+      id: '5',
       name: 'Gavin',
-      stall: '3',
+      stall: '5',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 7.1,
@@ -52,9 +52,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 8.2,
     ),
     Horse(
-      id: '4',
+      id: '1',
       name: 'Bo',
-      stall: '4',
+      stall: '1',
       aisle: 'A',
       status: HorseStatus.urgent,
       todayWater: 12.4,
@@ -63,9 +63,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 12.8,
     ),
     Horse(
-      id: '5',
+      id: '7',
       name: 'Stuart',
-      stall: '5',
+      stall: '7',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 8.2,
@@ -74,9 +74,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 8.8,
     ),
     Horse(
-      id: '6',
+      id: '3',
       name: 'Dancer',
-      stall: '6',
+      stall: '3',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 9.0,
@@ -85,9 +85,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 9.4,
     ),
     Horse(
-      id: '7',
+      id: '6',
       name: 'Prince',
-      stall: '7',
+      stall: '6',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 8.7,
@@ -96,9 +96,9 @@ class _HorsesPageState extends State<HorsesPage> {
       usualMax: 9.1,
     ),
     Horse(
-      id: '8',
+      id: '4',
       name: 'Farrah',
-      stall: '8',
+      stall: '4',
       aisle: 'A',
       status: HorseStatus.onTrack,
       todayWater: 6.9,
