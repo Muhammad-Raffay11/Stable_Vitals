@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stable_vitals/models/alert.dart';
 import 'package:stable_vitals/models/horse.dart';
@@ -107,225 +108,261 @@ class DashboardPage extends StatelessWidget {
     ];
   }
 
- @override
-Widget build(BuildContext context) {
-  final urgentHorse = horses.firstWhere(
-    (horse) => horse.status == HorseStatus.urgent,
-  );
+  @override
+  Widget build(BuildContext context) {
+    final urgentHorse = horses.firstWhere(
+      (horse) => horse.status == HorseStatus.urgent,
+    );
 
-  final checkHorse = horses.firstWhere(
-    (horse) => horse.status == HorseStatus.check,
-  );
+    final checkHorse = horses.firstWhere(
+      (horse) => horse.status == HorseStatus.check,
+    );
 
-  final normalHorses = horses
-      .where(
-        (horse) => horse.status == HorseStatus.onTrack,
-      )
-      .take(3)
-      .toList();
+    final normalHorses = horses
+        .where(
+          (horse) => horse.status == HorseStatus.onTrack,
+        )
+        .take(3)
+        .toList();
 
-  return AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle.light,
-    child: Scaffold(
-      backgroundColor: const Color(0xFFF8F7F2),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F7F2),
 
-      body: Column(
-        children: [
-          // -----------------------------------------------------------------
-          // HEADER (extends up through the status bar)
-          // -----------------------------------------------------------------
+        body: Column(
+          children: [
+            // -----------------------------------------------------------------
+            // HEADER (extends up through the status bar)
+            // -----------------------------------------------------------------
 
-          Container(
-            color: const Color(0xFF063C20),
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
+            Container(
+              color: const Color(0xFF063C20),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              child: const _StableVitalsHeader(),
             ),
-            child: const _StableVitalsHeader(),
-          ),
 
-          // -----------------------------------------------------------------
-          // DASHBOARD CONTENT
-          // -----------------------------------------------------------------
+            // -----------------------------------------------------------------
+            // DASHBOARD CONTENT
+            // -----------------------------------------------------------------
 
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.only(
-                  bottom: 90,
-                ),
-                children: [
-                  const _DashboardTopSection(),
+            Expanded(
+              child: SafeArea(
+                top: false,
+                bottom: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const _DashboardTopSection(),
 
-                  const SizedBox(height: 8),
+                      const SizedBox(height: 8),
 
-                  // -----------------------------------------------------------
-                  // ALERT CARDS
-                  // -----------------------------------------------------------
+                      // -------------------------------------------------------
+                      // ALERT CARDS
+                      // -------------------------------------------------------
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: _CompactAlertCard(
-                            horse: urgentHorse,
-                            severity: AlertSeverity.urgent,
-                            title: 'URGENT',
-                            subtitle: 'Water use is low',
-                            onViewDetails: () {
-                              context.push(
-                                '/horses/${urgentHorse.id}',
-                              );
-                            },
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
                         ),
-
-                        const SizedBox(width: 10),
-
-                        Expanded(
-                          child: _CompactAlertCard(
-                            horse: checkHorse,
-                            severity: AlertSeverity.check,
-                            title: 'CHECK',
-                            subtitle: 'Water use is low',
-                            onViewDetails: () {
-                              context.push(
-                                '/horses/${checkHorse.id}',
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // -----------------------------------------------------------
-                  // ALERT VISIBILITY NOTE
-                  // -----------------------------------------------------------
-
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      top: 10,
-                      left: 12,
-                      right: 12,
-                      bottom: 4,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Urgent and Check remain visible',
-                          style: TextStyle(
-                            fontSize: 9,
-                            color: Color(0xFF77756E),
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        SizedBox(width: 6),
-                        Icon(
-                          Icons.circle,
-                          size: 4,
-                          color: Color(0xFF99968C),
-                        ),
-                        SizedBox(width: 6),
-                        Text(
-                          'On Track horses scroll',
-                          style: TextStyle(
-                            fontSize: 9,
-                            color: Color(0xFF77756E),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // -----------------------------------------------------------
-                  // ALL HORSES
-                  // -----------------------------------------------------------
-
-                  const Padding(
-                    padding: EdgeInsets.fromLTRB(
-                      12,
-                      12,
-                      12,
-                      8,
-                    ),
-                    child: Text(
-                      'ALL HORSES',
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: .35,
-                        color: Color(0xFF0D492A),
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 11,
-                    ),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: const Color(0xFFE2E0D8),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withValues(
-                              alpha: .035,
-                            ),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        children: [
-                          for (int i = 0;
-                              i < normalHorses.length;
-                              i++) ...[
-                            _HorseListRow(
-                              horse: normalHorses[i],
-                              lastWaterText: _lastWaterText(i),
-                              onTap: () {
-                                context.push(
-                                  '/horses/${normalHorses[i].id}',
-                                );
-                              },
-                            ),
-                            if (i != normalHorses.length - 1)
-                              const Divider(
-                                height: 1,
-                                thickness: .7,
-                                indent: 55,
-                                endIndent: 10,
-                                color: Color(0xFFE8E6DE),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: _CompactAlertCard(
+                                horse: urgentHorse,
+                                severity: AlertSeverity.urgent,
+                                title: 'URGENT',
+                                metrics: [
+                                  _MetricLine(
+                                    icon: Icons.water_drop_rounded,
+                                    primary:
+                                        '${urgentHorse.todayWater.toStringAsFixed(1)} gal today',
+                                    secondary:
+                                        'Usual by now ${urgentHorse.usualMin.toStringAsFixed(1)}–${urgentHorse.usualMax.toStringAsFixed(1)}',
+                                  ),
+                                  const _MetricLine(
+                                    icon: Icons.water_drop_rounded,
+                                    primary: '8.9 gal last 24 hr',
+                                    secondary: 'Usual 11–15',
+                                  ),
+                                  const _MetricLine(
+                                    icon: Icons.access_time_rounded,
+                                    primary: 'No drink for 9 hr 48 min',
+                                    secondary: 'Last drink 4:30 AM PDT',
+                                  ),
+                                ],
+                                onViewDetails: () {
+                                  context.push(
+                                    '/horses/${urgentHorse.id}',
+                                  );
+                                },
                               ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
+                            ),
 
-                  const SizedBox(height: 25),
-                ],
+                            const SizedBox(width: 10),
+
+                            Expanded(
+                              child: _CompactAlertCard(
+                                horse: checkHorse,
+                                severity: AlertSeverity.check,
+                                title: 'CHECK',
+                                metrics: [
+                                  _MetricLine(
+                                    icon: Icons.water_drop_rounded,
+                                    primary:
+                                        '${checkHorse.todayWater.toStringAsFixed(1)} gal today',
+                                    secondary:
+                                        'Usual by now ${checkHorse.usualMin.toStringAsFixed(1)}–${checkHorse.usualMax.toStringAsFixed(1)}',
+                                  ),
+                                  const _MetricLine(
+                                    icon: Icons.water_drop_rounded,
+                                    primary: 'Usual daily range',
+                                    secondary: '9–11 gal',
+                                  ),
+                                  const _MetricLine(
+                                    icon: Icons.access_time_rounded,
+                                    primary: 'Last drink 9:05 AM PDT',
+                                  ),
+                                ],
+                                onViewDetails: () {
+                                  context.push(
+                                    '/horses/${checkHorse.id}',
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // -------------------------------------------------------
+                      // ALERT VISIBILITY NOTE
+                      // -------------------------------------------------------
+
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          top: 10,
+                          left: 12,
+                          right: 12,
+                          bottom: 4,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Urgent and Check remain visible',
+                              style: TextStyle(
+                                fontSize: 9,
+                                color: Color(0xFF77756E),
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(width: 6),
+                            Icon(
+                              Icons.circle,
+                              size: 4,
+                              color: Color(0xFF99968C),
+                            ),
+                            SizedBox(width: 6),
+                            Text(
+                              'On Track horses scroll',
+                              style: TextStyle(
+                                fontSize: 9,
+                                color: Color(0xFF77756E),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // -------------------------------------------------------
+                      // ALL HORSES
+                      // -------------------------------------------------------
+
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(
+                          12,
+                          12,
+                          12,
+                          8,
+                        ),
+                        child: Text(
+                          'ALL HORSES',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: .35,
+                            color: Color(0xFF0D492A),
+                          ),
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 11,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: const Color(0xFFE2E0D8),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(
+                                  alpha: .035,
+                                ),
+                                blurRadius: 6,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: [
+                              for (int i = 0;
+                                  i < normalHorses.length;
+                                  i++) ...[
+                                _HorseListRow(
+                                  horse: normalHorses[i],
+                                  lastWaterText: _lastWaterText(i),
+                                  onTap: () {
+                                    context.push(
+                                      '/horses/${normalHorses[i].id}',
+                                    );
+                                  },
+                                ),
+                                if (i != normalHorses.length - 1)
+                                  const Divider(
+                                    height: 1,
+                                    thickness: .7,
+                                    indent: 56,
+                                    endIndent: 10,
+                                    color: Color(0xFFE8E6DE),
+                                  ),
+                              ],
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 100),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   String _lastWaterText(int index) {
     switch (index) {
       case 0:
@@ -362,37 +399,37 @@ class _StableVitalsHeader extends StatelessWidget {
           // HORSE LOGO
           // -------------------------------------------------------------------
 
-         Padding(
-           padding: const EdgeInsets.only(top: 8),
-           child: SizedBox(
-                width: 90,
-                height: 90,
-                child: Image.asset(
-                  'assets/images/stable_vitals_logo_wide_1024.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (
-                    context,
-                    error,
-                    stackTrace,
-                  ) {
-                    return const Icon(
-                      Icons.pets_outlined,
-                      color: Color(0xFFD3A83F),
-                      size: 27,
-                    );
-                  },
-                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: SizedBox(
+              width: 90,
+              height: 90,
+              child: Image.asset(
+                'assets/images/stable_vitals_logo_wide_1024.png',
+                fit: BoxFit.contain,
+                errorBuilder: (
+                  context,
+                  error,
+                  stackTrace,
+                ) {
+                  return const Icon(
+                    Icons.pets_outlined,
+                    color: Color(0xFFD3A83F),
+                    size: 27,
+                  );
+                },
               ),
-         ),
+            ),
+          ),
           const SizedBox(width: 8),
 
           // -------------------------------------------------------------------
           // STABLE VITALS
           // -------------------------------------------------------------------
 
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text(
               'STABLE VITALS',
               style: TextStyle(
                 color: Color(0xFFD3A83F),
@@ -421,19 +458,23 @@ class _StableVitalsHeader extends StatelessWidget {
               onPressed: () {
                 context.go('/alerts');
               },
-              icon: const Icon(
-                Icons.notifications_none,
-                color: Color(0xFFD7AF4B),
-                size: 25,
+              icon: SvgPicture.asset(
+                'assets/icons/stable_vitals_nav_bell.svg',
+                width: 25,
+                height: 25,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFFD7AF4B),
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
+        
         ],
       ),
     );
   }
 }
-
 
 // =============================================================================
 // DASHBOARD TOP INFORMATION
@@ -461,7 +502,7 @@ class _DashboardTopSection extends StatelessWidget {
           const Text(
             'Barn Dashboard',
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 26,
               height: 1.1,
               fontWeight: FontWeight.bold,
               color: Color(0xFF173D27),
@@ -473,13 +514,13 @@ class _DashboardTopSection extends StatelessWidget {
           const Text(
             'Rancho Santa Fe Barn',
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 12,
               color: Color(0xFF65645E),
               fontWeight: FontWeight.w500,
             ),
           ),
 
-          const SizedBox(height: 7),
+          const SizedBox(height: 8),
 
           // -------------------------------------------------------------------
           // DATE + WEATHER
@@ -492,19 +533,19 @@ class _DashboardTopSection extends StatelessWidget {
                 child: Text(
                   'TUE, AUG 4 • 2:18 PM • BARN LOCAL',
                   style: TextStyle(
-                    fontSize: 9,
+                    fontSize: 10,
                     fontWeight: FontWeight.w600,
                     color: Color(0xFF76736B),
                   ),
                 ),
               ),
 
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
 
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 6,
+                  horizontal: 7,
+                  vertical: 7,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFC08A27),
@@ -514,16 +555,16 @@ class _DashboardTopSection extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.wb_sunny_outlined,
-                      size: 12,
+                      Icons.wb_sunny_rounded,
+                      size: 17,
                       color: Colors.white,
                     ),
                     SizedBox(width: 4),
                     Text(
-                      '73°F • HIGH 104° / LOW 74°',
+                      '102°F • HIGH 104° / LOW 74° • AQI 148\n HEAT WARNING • UNHEALTHY AIR',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 7.5,
+                        fontSize: 8.5,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -533,7 +574,7 @@ class _DashboardTopSection extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 7),
+          const SizedBox(height: 8),
 
           // -------------------------------------------------------------------
           // BARN INFORMATION
@@ -541,36 +582,22 @@ class _DashboardTopSection extends StatelessWidget {
 
           const Row(
             children: [
-              Icon(
-                Icons.pets_outlined,
-                size: 12,
-                color: Color(0xFF4E4C46),
-              ),
-
-              SizedBox(width: 4),
+              SizedBox(width: 1),
 
               Text(
-                '8 horses',
+                '8 horses  •',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 10,
                   color: Color(0xFF55534D),
                 ),
               ),
 
-              SizedBox(width: 11),
-
-              Icon(
-                Icons.access_time_rounded,
-                size: 11,
-                color: Color(0xFF4E4C46),
-              ),
-
-              SizedBox(width: 3),
+              SizedBox(width: 6),
 
               Text(
                 'Updated 2:18 PM PDT',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 10,
                   color: Color(0xFF55534D),
                 ),
               ),
@@ -588,7 +615,7 @@ class _DashboardTopSection extends StatelessWidget {
               Text(
                 'Online',
                 style: TextStyle(
-                  fontSize: 9,
+                  fontSize: 10,
                   color: Color(0xFF55534D),
                 ),
               ),
@@ -604,18 +631,30 @@ class _DashboardTopSection extends StatelessWidget {
 // COMPACT ALERT CARD
 // =============================================================================
 
+class _MetricLine {
+  final IconData icon;
+  final String primary;
+  final String? secondary;
+
+  const _MetricLine({
+    required this.icon,
+    required this.primary,
+    this.secondary,
+  });
+}
+
 class _CompactAlertCard extends StatelessWidget {
   final Horse horse;
   final AlertSeverity severity;
   final String title;
-  final String subtitle;
+  final List<_MetricLine> metrics;
   final VoidCallback onViewDetails;
 
   const _CompactAlertCard({
     required this.horse,
     required this.severity,
     required this.title,
-    required this.subtitle,
+    required this.metrics,
     required this.onViewDetails,
   });
 
@@ -655,9 +694,9 @@ class _CompactAlertCard extends StatelessWidget {
 
           Container(
             width: double.infinity,
-            height: 34,
+            height: 38,
             padding: const EdgeInsets.symmetric(
-              horizontal: 9,
+              horizontal: 10,
             ),
             color: headerColor,
             child: Row(
@@ -666,11 +705,11 @@ class _CompactAlertCard extends StatelessWidget {
                   isUrgent
                       ? Icons.warning_rounded
                       : Icons.check_circle_rounded,
-                  size: 17,
+                  size: 19,
                   color: Colors.white,
                 ),
 
-                const SizedBox(width: 6),
+                const SizedBox(width: 7),
 
                 Expanded(
                   child: Text(
@@ -678,7 +717,7 @@ class _CompactAlertCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 9,
+                      fontSize: 10,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -693,50 +732,21 @@ class _CompactAlertCard extends StatelessWidget {
 
           Padding(
             padding: const EdgeInsets.fromLTRB(
-              10,
-              10,
-              10,
-              10,
+              8,
+              8,
+              8,
+              8,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _AlertMetricRow(
-                  icon: Icons.water_drop_outlined,
-                  title: 'Today',
-                  value:
-                      '${horse.todayWater.toStringAsFixed(1)} gal today',
-                ),
+                for (int i = 0; i < metrics.length; i++) ...[
+                  _MetricLineWidget(metric: metrics[i]),
+                  if (i != metrics.length - 1)
+                    const SizedBox(height: 10),
+                ],
 
-                const SizedBox(height: 7),
-
-                _AlertMetricRow(
-                  icon: Icons.analytics_outlined,
-                  title: 'Usual',
-                  value:
-                      '${horse.usualMin.toStringAsFixed(1)}–${horse.usualMax.toStringAsFixed(1)}',
-                ),
-
-                const SizedBox(height: 7),
-
-                _AlertMetricRow(
-                  icon: Icons.calendar_today_outlined,
-                  title: '24h',
-                  value:
-                      '${horse.rolling24Hours.toStringAsFixed(1)} gal past 24h',
-                ),
-
-                const SizedBox(height: 7),
-
-                _AlertMetricRow(
-                  icon: Icons.access_time_rounded,
-                  title: 'Last drink',
-                  value: isUrgent
-                      ? '9:48 min ago'
-                      : '9:05 AM PDT',
-                ),
-
-                const SizedBox(height: 11),
+                const SizedBox(height: 13),
 
                 // ----------------------------------------------------------------
                 // VIEW DETAILS BUTTON
@@ -744,7 +754,7 @@ class _CompactAlertCard extends StatelessWidget {
 
                 SizedBox(
                   width: double.infinity,
-                  height: 30,
+                  height: 34,
                   child: ElevatedButton(
                     onPressed: onViewDetails,
                     style: ElevatedButton.styleFrom(
@@ -760,7 +770,7 @@ class _CompactAlertCard extends StatelessWidget {
                     child: const Text(
                       'View details',
                       style: TextStyle(
-                        fontSize: 9,
+                        fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -776,53 +786,51 @@ class _CompactAlertCard extends StatelessWidget {
 }
 
 // =============================================================================
-// ALERT METRIC ROW
+// METRIC LINE
 // =============================================================================
 
-class _AlertMetricRow extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String value;
+class _MetricLineWidget extends StatelessWidget {
+  final _MetricLine metric;
 
-  const _AlertMetricRow({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
+  const _MetricLineWidget({required this.metric});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          width: 20,
-          height: 20,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xFF294C39),
-              width: .8,
-            ),
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            size: 10,
-            color: const Color(0xFF17482E),
-          ),
+        Icon(
+          metric.icon,
+          size: 15,
+          color: const Color(0xFF17482E),
         ),
 
         const SizedBox(width: 7),
 
         Expanded(
-          child: Text(
-            value,
-            overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
-              fontSize: 8.5,
-              color: Color(0xFF45443F),
-              fontWeight: FontWeight.w500,
-            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                metric.primary,
+                style: const TextStyle(
+                  fontSize: 12.5,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF272722),
+                ),
+              ),
+              if (metric.secondary != null) ...[
+                const SizedBox(height: 1),
+                Text(
+                  metric.secondary!,
+                  style: const TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    color: Color(0xFF6B6A63),
+                  ),
+                ),
+              ],
+            ],
           ),
         ),
       ],
@@ -850,174 +858,155 @@ class _HorseListRow extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(8),
-      child: SizedBox(
-        height: 62,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10,
-            vertical: 7,
-          ),
-          child: Row(
-            children: [
-              // ---------------------------------------------------------------
-              // STATUS ICON
-              // ---------------------------------------------------------------
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 10,
+        ),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            // ---------------------------------------------------------------
+            // STATUS ICON
+            // ---------------------------------------------------------------
 
-              Container(
-                width: 32,
-                height: 32,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF064528),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 20,
-                ),
+            Container(
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                color: Color(0xFF064528),
+                shape: BoxShape.circle,
               ),
+              child: const Icon(
+                Icons.check_rounded,
+                color: Colors.white,
+                size: 22,
+              ),
+            ),
 
-              const SizedBox(width: 9),
+            const SizedBox(width: 10),
 
-              // ---------------------------------------------------------------
-              // HORSE NAME
-              // ---------------------------------------------------------------
+            // ---------------------------------------------------------------
+            // NAME
+            // ---------------------------------------------------------------
 
-              Expanded(
-                flex: 5,
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        horse.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w800,
-                          color: Color(0xFF272722),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // -----------------------------------------------------
+                  // HORSE NAME + STALL
+                  // -----------------------------------------------------
+
+                  Row(
+                    children: [
+                      Flexible(
+                        child: Text(
+                          horse.name,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF272722),
+                          ),
                         ),
                       ),
-                    ),
 
-                    const SizedBox(width: 4),
+                      const SizedBox(width: 5),
 
-                    Flexible(
-                      child: Text(
-                        '• Stall ${horse.stall}',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 8,
-                          color: Color(0xFF69675F),
+                      Flexible(
+                        child: Text(
+                          '• Stall ${horse.stall}',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(0xFF69675F),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
 
-              // ---------------------------------------------------------------
-              // TODAY
-              // ---------------------------------------------------------------
+                  const SizedBox(height: 5),
 
-              Expanded(
-                flex: 3,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.water_drop_outlined,
-                      size: 10,
-                      color: Color(0xFF3D5146),
-                    ),
+                  // -----------------------------------------------------
+                  // TODAY • USUAL PATTERN • LAST DRINK
+                  // -----------------------------------------------------
 
-                    const SizedBox(width: 3),
-
-                    Flexible(
-                      child: Text(
-                        '${horse.todayWater.toStringAsFixed(1)} gal today',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 7.5,
-                          color: Color(0xFF57554F),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.water_drop_outlined,
+                        size: 13,
+                        color: Color(0xFF3D5146),
+                      ),
+                      const SizedBox(width: 3),
+                      Flexible(
+                        child: Text(
+                          '${horse.todayWater.toStringAsFixed(1)} gal today',
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 10.5,
+                            color: Color(0xFF57554F),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
 
-              // ---------------------------------------------------------------
-              // USUAL PATTERN
-              // ---------------------------------------------------------------
+                      const SizedBox(width: 10),
 
-              Expanded(
-                flex: 4,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.show_chart_rounded,
-                      size: 10,
-                      color: Color(0xFF3D5146),
-                    ),
-
-                    const SizedBox(width: 3),
-
-                    Flexible(
-                      child: Text(
-                        'Within usual pattern',
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 7.5,
-                          color: Color(0xFF57554F),
+                      const Icon(
+                        Icons.show_chart_rounded,
+                        size: 13,
+                        color: Color(0xFF3D5146),
+                      ),
+                      const SizedBox(width: 3),
+                      const Flexible(
+                        child: Text(
+                          'Within usual pattern',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 10.5,
+                            color: Color(0xFF57554F),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
 
-              // ---------------------------------------------------------------
-              // LAST DRINK
-              // ---------------------------------------------------------------
+                      const SizedBox(width: 10),
 
-              Expanded(
-                flex: 4,
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.access_time_rounded,
-                      size: 10,
-                      color: Color(0xFF3D5146),
-                    ),
-
-                    const SizedBox(width: 3),
-
-                    Flexible(
-                      child: Text(
-                        lastWaterText,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 7.3,
-                          color: Color(0xFF57554F),
+                      const Icon(
+                        Icons.access_time_rounded,
+                        size: 13,
+                        color: Color(0xFF3D5146),
+                      ),
+                      const SizedBox(width: 3),
+                      Flexible(
+                        child: Text(
+                          lastWaterText,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 10.5,
+                            color: Color(0xFF57554F),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
+                ],
               ),
+            ),
 
-              const SizedBox(width: 4),
+            const SizedBox(width: 4),
 
-              // ---------------------------------------------------------------
-              // ARROW
-              // ---------------------------------------------------------------
+            // ---------------------------------------------------------------
+            // ARROW
+            // ---------------------------------------------------------------
 
-              const Icon(
-                Icons.chevron_right_rounded,
-                size: 21,
-                color: Color(0xFF164C31),
-              ),
-            ],
-          ),
+            const Icon(
+              Icons.chevron_right_rounded,
+              size: 24,
+              color: Color(0xFF164C31),
+            ),
+          ],
         ),
       ),
     );

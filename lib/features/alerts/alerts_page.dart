@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:stable_vitals/models/horse.dart';
@@ -89,66 +90,66 @@ class AlertsPage extends StatelessWidget {
   // ===========================================================================
 
   @override
-Widget build(BuildContext context) {
-  return AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle.light,
-    child: Scaffold(
-      backgroundColor: const Color(0xFFF8F7F2),
+  Widget build(BuildContext context) {
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF8F7F2),
 
-      body: Column(
-        children: [
-          Container(
-            color: const Color(0xFF063C20),
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
+        body: Column(
+          children: [
+            Container(
+              color: const Color(0xFF063C20),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              child: const _StableVitalsHeader(),
             ),
-            child: const _StableVitalsHeader(),
-          ),
 
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: ListView(
-                physics: const BouncingScrollPhysics(),
-                padding: EdgeInsets.zero,
-                children: [
-                  const _TopAlertBar(),
+            Expanded(
+              child: SafeArea(
+                top: false,
+                bottom: false,
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: EdgeInsets.zero,
+                  children: [
+                    const _TopAlertBar(),
 
-                  const _BarnInformation(),
+                    const _BarnInformation(),
 
-                  const _AllHorsesHeader(),
+                    const _AllHorsesHeader(),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Column(
-                      children: [
-                        for (final horse in horses)
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 7),
-                            child: _HorseCard(
-                              horse: horse,
-                              onTap: () {
-                                context.push(
-                                  '/horses/${horse.id}',
-                                );
-                              },
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                        children: [
+                          for (final horse in horses)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: _HorseCard(
+                                horse: horse,
+                                onTap: () {
+                                  context.push(
+                                    '/horses/${horse.id}',
+                                  );
+                                },
+                              ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
 
-                  const SizedBox(height: 100),
-                ],
+                    const SizedBox(height: 100),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 }
 
 // =============================================================================
@@ -173,37 +174,37 @@ class _StableVitalsHeader extends StatelessWidget {
           // HORSE LOGO
           // -------------------------------------------------------------------
 
-         Padding(
-           padding: const EdgeInsets.only(top: 8),
-           child: SizedBox(
-                width: 90,
-                height: 90,
-                child: Image.asset(
-                  'assets/images/stable_vitals_logo_wide_1024.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (
-                    context,
-                    error,
-                    stackTrace,
-                  ) {
-                    return const Icon(
-                      Icons.pets_outlined,
-                      color: Color(0xFFD3A83F),
-                      size: 27,
-                    );
-                  },
-                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: SizedBox(
+              width: 90,
+              height: 90,
+              child: Image.asset(
+                'assets/images/stable_vitals_logo_wide_1024.png',
+                fit: BoxFit.contain,
+                errorBuilder: (
+                  context,
+                  error,
+                  stackTrace,
+                ) {
+                  return const Icon(
+                    Icons.pets_outlined,
+                    color: Color(0xFFD3A83F),
+                    size: 27,
+                  );
+                },
               ),
-         ),
+            ),
+          ),
           const SizedBox(width: 8),
 
           // -------------------------------------------------------------------
           // STABLE VITALS
           // -------------------------------------------------------------------
 
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text(
               'STABLE VITALS',
               style: TextStyle(
                 color: Color(0xFFD3A83F),
@@ -232,13 +233,18 @@ class _StableVitalsHeader extends StatelessWidget {
               onPressed: () {
                 context.go('/alerts');
               },
-              icon: const Icon(
-                Icons.notifications_none,
-                color: Color(0xFFD7AF4B),
-                size: 25,
+              icon: SvgPicture.asset(
+                'assets/icons/stable_vitals_nav_bell.svg',
+                width: 25,
+                height: 25,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFFD7AF4B),
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
+          
         ],
       ),
     );
@@ -257,7 +263,7 @@ class _TopAlertBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         10,
-        8,
+        9,
         10,
         0,
       ),
@@ -269,20 +275,20 @@ class _TopAlertBar extends StatelessWidget {
 
           Expanded(
             child: Container(
-              height: 32,
+              height: 37,
               decoration: BoxDecoration(
                 color: const Color(0xFF970D16),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(6),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 9),
               child: Row(
                 children: [
                   const Icon(
                     Icons.warning_rounded,
-                    size: 17,
+                    size: 19,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 6),
                   const Expanded(
                     child: Text(
                       '1 URGENT • TOBY',
@@ -290,7 +296,7 @@ class _TopAlertBar extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 9,
+                        fontSize: 10.5,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -300,7 +306,7 @@ class _TopAlertBar extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 6),
+          const SizedBox(width: 4),
 
           // ===================================================================
           // CHECK
@@ -308,20 +314,20 @@ class _TopAlertBar extends StatelessWidget {
 
           Expanded(
             child: Container(
-              height: 32,
+              height: 37,
               decoration: BoxDecoration(
                 color: const Color(0xFFC48A1B),
-                borderRadius: BorderRadius.circular(5),
+                borderRadius: BorderRadius.circular(6),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 9),
               child: Row(
                 children: [
                   const Icon(
                     Icons.check_circle_rounded,
-                    size: 17,
+                    size: 19,
                     color: Colors.white,
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 6),
                   const Expanded(
                     child: Text(
                       '1 CHECK • CODY',
@@ -329,7 +335,7 @@ class _TopAlertBar extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 9,
+                        fontSize: 10.5,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -339,15 +345,15 @@ class _TopAlertBar extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(width: 6),
+          const SizedBox(width: 4),
 
           // ===================================================================
           // VIEW ALERTS
           // ===================================================================
 
           SizedBox(
-            height: 32,
-            width: 105,
+            height: 37,
+            width: 118,
             child: OutlinedButton(
               onPressed: () {
                 context.go('/alerts');
@@ -357,10 +363,10 @@ class _TopAlertBar extends StatelessWidget {
                 backgroundColor: Colors.white,
                 side: const BorderSide(
                   color: Color(0xFFDAD8D0),
-                  width: .9,
+                  width: 1,
                 ),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(6),
                 ),
               ),
               child: const Row(
@@ -369,15 +375,15 @@ class _TopAlertBar extends StatelessWidget {
                   Text(
                     'Tap to view alerts',
                     style: TextStyle(
-                      fontSize: 8.2,
+                      fontSize: 9.5,
                       color: Color(0xFF4B4A45),
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
                   SizedBox(width: 3),
                   Icon(
                     Icons.chevron_right_rounded,
-                    size: 16,
+                    size: 18,
                     color: Color(0xFF55534D),
                   ),
                 ],
@@ -401,10 +407,10 @@ class _BarnInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
-        11,
         10,
-        11,
-        7,
+        10,
+        10,
+        8,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -418,39 +424,39 @@ class _BarnInformation extends StatelessWidget {
             children: [
               const Expanded(
                 child: Text(
-                  'TUE, AUG 2 • 2:18 PM • BARN LOCAL',
+                  'TUE AUG 4 • 2:18 PM PDT • BARN LOCAL',
                   style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xFF67655E),
+                    fontSize: 10,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF5C5A53),
                   ),
                 ),
               ),
 
               // Weather
               Container(
-                height: 28,
+                height: 32,
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
+                  horizontal: 10,
                 ),
                 decoration: BoxDecoration(
                   color: const Color(0xFFC48A1B),
-                  borderRadius: BorderRadius.circular(5),
+                  borderRadius: BorderRadius.circular(6),
                 ),
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(
-                      Icons.wb_sunny_outlined,
+                      Icons.wb_sunny_rounded,
                       color: Colors.white,
-                      size: 13,
+                      size: 15,
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 6),
                     Text(
                       '102°F • AQI 148',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 8,
+                        fontSize: 9.5,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -460,7 +466,7 @@ class _BarnInformation extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 5),
+          const SizedBox(height: 1),
 
           // ===================================================================
           // ONLINE INFORMATION
@@ -471,22 +477,24 @@ class _BarnInformation extends StatelessWidget {
               Text(
                 'Updated 2:18 PM PDT',
                 style: TextStyle(
-                  fontSize: 8.5,
-                  color: Color(0xFF69675F),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF5C5A53),
                 ),
               ),
               SizedBox(width: 8),
               Icon(
                 Icons.circle,
-                size: 5,
+                size: 6,
                 color: Color(0xFF217341),
               ),
               SizedBox(width: 4),
               Text(
                 'Online',
                 style: TextStyle(
-                  fontSize: 8.5,
-                  color: Color(0xFF69675F),
+                  fontSize: 10,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF5C5A53),
                 ),
               ),
             ],
@@ -509,20 +517,25 @@ class _AllHorsesHeader extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.fromLTRB(
         11,
-        6,
-        11,
         7,
+        11,
+        8,
       ),
       child: Align(
         alignment: Alignment.centerLeft,
-        child: Text(
-          'ALL HORSES',
-          style: TextStyle(
-            fontSize: 11,
-            fontWeight: FontWeight.w800,
-            color: Color(0xFF0C482A),
-            letterSpacing: .3,
-          ),
+        child: Row(
+          children: [
+            Text(
+              'ALL HORSES',
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFF0C482A),
+                letterSpacing: .35,
+              ),
+            ),
+            Divider(color: Colors.black,)
+          ],
         ),
       ),
     );
@@ -548,30 +561,30 @@ class _HorseCard extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(9),
+        borderRadius: BorderRadius.circular(10),
         child: Container(
-          height: 112,
+          height: 126,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(9),
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
               color: const Color(0xFFE1DFD8),
-              width: .9,
+              width: 1,
             ),
             boxShadow: const [
               BoxShadow(
-                color: Color(0x12000000),
-                blurRadius: 5,
+                color: Color(0x14000000),
+                blurRadius: 6,
                 offset: Offset(0, 2),
               ),
             ],
           ),
           padding: const EdgeInsets.fromLTRB(
-            11,
-            9,
-            9,
-            9,
+            12,
+            10,
+            10,
+            10,
           ),
           child: Row(
             children: [
@@ -579,21 +592,26 @@ class _HorseCard extends StatelessWidget {
               // STATUS CIRCLE
               // =================================================================
 
-              Container(
-                width: 38,
-                height: 38,
-                decoration: const BoxDecoration(
-                  color: Color(0xFF073F23),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_rounded,
-                  color: Colors.white,
-                  size: 25,
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: const BoxDecoration(
+                      color: Color(0xFF073F23),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.check_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ],
               ),
 
-              const SizedBox(width: 11),
+              const SizedBox(width: 12),
 
               // =================================================================
               // HORSE INFORMATION
@@ -611,10 +629,10 @@ class _HorseCard extends StatelessWidget {
                     Text(
                       horse.name,
                       style: const TextStyle(
-                        fontSize: 14,
+                        fontSize: 16.5,
                         height: 1,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF252520),
+                        fontWeight: FontWeight.w900,
+                        color: Color(0xFF201F1B),
                       ),
                     ),
 
@@ -625,42 +643,42 @@ class _HorseCard extends StatelessWidget {
                     // -----------------------------------------------------------
 
                     Text(
-                      'Stall ${horse.stall} • Aisle ${horse.aisle}',
+                      'Stall ${horse.stall}',
                       style: const TextStyle(
-                        fontSize: 9,
+                        fontSize: 10.5,
                         height: 1,
-                        color: Color(0xFF65635D),
-                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF5C5A53),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
 
-                    const SizedBox(height: 5),
+                    const SizedBox(height: 6),
 
                     // -----------------------------------------------------------
                     // STATUS BADGE
                     // -----------------------------------------------------------
 
                     Container(
-                      height: 17,
+                      height: 20,
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 7,
+                        horizontal: 8,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF0A4A2A),
-                        borderRadius: BorderRadius.circular(3),
+                        borderRadius: BorderRadius.circular(4),
                       ),
                       child: const Text(
                         'ON TRACK',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 7.5,
-                          height: 1.9,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 8.5,
+                          height: 2.15,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ),
 
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 7),
 
                     // -----------------------------------------------------------
                     // WATER
@@ -670,22 +688,23 @@ class _HorseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(
-                          Icons.water_drop_outlined,
-                          size: 12,
+                          Icons.water_drop_rounded,
+                          size: 14,
                           color: Color(0xFF3E5047),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 5),
                         Text(
                           '${horse.todayWater.toStringAsFixed(1)} gal today',
                           style: const TextStyle(
-                            fontSize: 8.5,
-                            color: Color(0xFF55534D),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4A4943),
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
 
                     // -----------------------------------------------------------
                     // LAST DRINK
@@ -695,16 +714,17 @@ class _HorseCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         const Icon(
-                          Icons.access_time_rounded,
-                          size: 12,
+                          Icons.access_time_outlined,
+                          size: 14,
                           color: Color(0xFF3E5047),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: 5),
                         Text(
                           _lastDrinkTime(horse.name),
                           style: const TextStyle(
-                            fontSize: 8.5,
-                            color: Color(0xFF55534D),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF4A4943),
                           ),
                         ),
                       ],
@@ -721,7 +741,7 @@ class _HorseCard extends StatelessWidget {
                 padding: EdgeInsets.only(right: 2),
                 child: Icon(
                   Icons.chevron_right_rounded,
-                  size: 28,
+                  size: 30,
                   color: Color(0xFF174B31),
                 ),
               ),

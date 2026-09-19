@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:stable_vitals/models/horse.dart';
@@ -111,214 +112,215 @@ class HorseProfilePage extends StatelessWidget {
     }
   }
 
- @override
-Widget build(BuildContext context) {
-  final data = profileData;
+  @override
+  Widget build(BuildContext context) {
+    final data = profileData;
 
-  return AnnotatedRegion<SystemUiOverlayStyle>(
-    value: SystemUiOverlayStyle.light,
-    child: Scaffold(
-      backgroundColor: const Color(0xFFF7F5F0),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: const Color(0xFFF7F5F0),
 
-      body: Column(
-        children: [
-          // =================================================================
-          // STABLE VITALS HEADER
-          // =================================================================
+        body: Column(
+          children: [
+            // =================================================================
+            // STABLE VITALS HEADER
+            // =================================================================
 
-          Container(
-            color: const Color(0xFF063C20),
-            padding: EdgeInsets.only(
-              top: MediaQuery.of(context).padding.top,
+            Container(
+              color: const Color(0xFF063C20),
+              padding: EdgeInsets.only(
+                top: MediaQuery.of(context).padding.top,
+              ),
+              child: const _StableVitalsHeader(),
             ),
-            child: const _StableVitalsHeader(),
-          ),
 
-          // =================================================================
-          // CONTENT
-          // =================================================================
+            // =================================================================
+            // CONTENT
+            // =================================================================
 
-          Expanded(
-            child: SafeArea(
-              top: false,
-              bottom: false,
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(
-                  9,
-                  5,
-                  9,
-                  18,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // ---------------------------------------------------------
-                    // BACK TO HORSES
-                    // ---------------------------------------------------------
+            Expanded(
+              child: SafeArea(
+                top: false,
+                bottom: false,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  padding: const EdgeInsets.fromLTRB(
+                    9,
+                    5,
+                    9,
+                    18,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ---------------------------------------------------------
+                      // BACK TO HORSES
+                      // ---------------------------------------------------------
 
-                    _BackButton(
-                      onTap: () {
-                        context.pop();
-                      },
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    // ---------------------------------------------------------
-                    // HORSE HEADER
-                    // ---------------------------------------------------------
-
-                    _HorseHeader(
-                      horse: horse,
-                      data: data,
-                    ),
-
-                    const SizedBox(height: 7),
-
-                    // ---------------------------------------------------------
-                    // ALERT
-                    // ---------------------------------------------------------
-
-                    _HorseAlertCard(
-                      horse: horse,
-                      data: data,
-                      onDetailsTap: () {
-                        _showAlertDetails(
-                          context,
-                          data,
-                        );
-                      },
-                    ),
-
-                    const SizedBox(height: 9),
-
-                    // ---------------------------------------------------------
-                    // HYDRATION SNAPSHOT
-                    // ---------------------------------------------------------
-
-                    const _SectionTitle(
-                      title: 'Hydration Snapshot',
-                    ),
-
-                    const SizedBox(height: 5),
-
-                    _HydrationGrid(
-                      data: data,
-                    ),
-
-                    const SizedBox(height: 7),
-
-                    // ---------------------------------------------------------
-                    // USUAL HYDRATION RANGE
-                    // ---------------------------------------------------------
-
-                    _UsualHydrationCard(
-                      horse: horse,
-                      data: data,
-                    ),
-
-                    const SizedBox(height: 9),
-
-                    // ---------------------------------------------------------
-                    // TODAY'S PATTERN
-                    // ---------------------------------------------------------
-
-                    const _SectionTitle(
-                      title: "Today's Pattern",
-                    ),
-
-                    const SizedBox(height: 4),
-
-                    _HydrationChart(
-                      data: data,
-                    ),
-
-                    const SizedBox(height: 7),
-
-                    // ---------------------------------------------------------
-                    // HISTORY BUTTON
-                    // ---------------------------------------------------------
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 31,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _showHydrationHistory(context);
+                      _BackButton(
+                        onTap: () {
+                          context.pop();
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color(0xFF064526),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(3),
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      // ---------------------------------------------------------
+                      // HORSE HEADER
+                      // ---------------------------------------------------------
+
+                      _HorseHeader(
+                        horse: horse,
+                        data: data,
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // ---------------------------------------------------------
+                      // ALERT
+                      // ---------------------------------------------------------
+
+                      _HorseAlertCard(
+                        horse: horse,
+                        data: data,
+                        onDetailsTap: () {
+                          _showAlertDetails(
+                            context,
+                            data,
+                          );
+                        },
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // ---------------------------------------------------------
+                      // HYDRATION SNAPSHOT
+                      // ---------------------------------------------------------
+
+                      const _SectionTitle(
+                        title: 'Hydration Snapshot',
+                      ),
+
+                      const SizedBox(height: 6),
+
+                      _HydrationGrid(
+                        data: data,
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // ---------------------------------------------------------
+                      // USUAL HYDRATION RANGE
+                      // ---------------------------------------------------------
+
+                      _UsualHydrationCard(
+                        horse: horse,
+                        data: data,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // ---------------------------------------------------------
+                      // TODAY'S PATTERN
+                      // ---------------------------------------------------------
+
+                      const _SectionTitle(
+                        title: "Today's Pattern",
+                      ),
+
+                      const SizedBox(height: 5),
+
+                      _HydrationChart(
+                        data: data,
+                      ),
+
+                      const SizedBox(height: 8),
+
+                      // ---------------------------------------------------------
+                      // HISTORY BUTTON
+                      // ---------------------------------------------------------
+
+                      SizedBox(
+                        width: double.infinity,
+                        height: 34,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _showHydrationHistory(context);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color(0xFF064526),
+                            foregroundColor: Colors.white,
+                            elevation: 0,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(4),
+                            ),
                           ),
-                        ),
-                        child: const Text(
-                          'View Hydration History',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
+                          child: const Text(
+                            'View Hydration History',
+                            style: TextStyle(
+                              fontSize: 12.5,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    const SizedBox(height: 5),
+                      const SizedBox(height: 6),
 
-                    // ---------------------------------------------------------
-                    // ADD CONTEXT NOTE
-                    // ---------------------------------------------------------
+                      // ---------------------------------------------------------
+                      // ADD CONTEXT NOTE
+                      // ---------------------------------------------------------
 
-                    SizedBox(
-                      width: double.infinity,
-                      height: 27,
-                      child: OutlinedButton.icon(
-                        onPressed: () {
-                          _showAddContextNote(context);
-                        },
-                        icon: const Icon(
-                          Icons.note_add_outlined,
-                          size: 13,
-                        ),
-                        label: const Text(
-                          'Add Context Note',
-                          style: TextStyle(
-                            fontSize: 8.5,
-                            fontWeight: FontWeight.w600,
+                      SizedBox(
+                        width: double.infinity,
+                        height: 30,
+                        child: OutlinedButton.icon(
+                          onPressed: () {
+                            _showAddContextNote(context);
+                          },
+                          icon: const Icon(
+                            Icons.note_add_outlined,
+                            size: 15,
                           ),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor:
-                              const Color(0xFF4E534C),
-                          side: const BorderSide(
-                            color: Color(0xFFBDBDB6),
-                            width: .8,
+                          label: const Text(
+                            'Add Context Note',
+                            style: TextStyle(
+                              fontSize: 9.5,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(2),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor:
+                                const Color(0xFF4E534C),
+                            side: const BorderSide(
+                              color: Color(0xFFBDBDB6),
+                              width: .8,
+                            ),
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(3),
+                            ),
                           ),
                         ),
                       ),
-                    ),
 
-                    const SizedBox(height: 5),
-                  ],
+                      const SizedBox(height: 5),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
+
   // ===========================================================================
   // ALERT DETAILS
   // ===========================================================================
@@ -540,37 +542,37 @@ class _StableVitalsHeader extends StatelessWidget {
           // HORSE LOGO
           // -------------------------------------------------------------------
 
-         Padding(
-           padding: const EdgeInsets.only(top: 8),
-           child: SizedBox(
-                width: 90,
-                height: 90,
-                child: Image.asset(
-                  'assets/images/stable_vitals_logo_wide_1024.png',
-                  fit: BoxFit.contain,
-                  errorBuilder: (
-                    context,
-                    error,
-                    stackTrace,
-                  ) {
-                    return const Icon(
-                      Icons.pets_outlined,
-                      color: Color(0xFFD3A83F),
-                      size: 27,
-                    );
-                  },
-                ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: SizedBox(
+              width: 90,
+              height: 90,
+              child: Image.asset(
+                'assets/images/stable_vitals_logo_wide_1024.png',
+                fit: BoxFit.contain,
+                errorBuilder: (
+                  context,
+                  error,
+                  stackTrace,
+                ) {
+                  return const Icon(
+                    Icons.pets_outlined,
+                    color: Color(0xFFD3A83F),
+                    size: 27,
+                  );
+                },
               ),
-         ),
+            ),
+          ),
           const SizedBox(width: 8),
 
           // -------------------------------------------------------------------
           // STABLE VITALS
           // -------------------------------------------------------------------
 
-          Padding(
-            padding: const EdgeInsets.only(top: 8),
-            child: const Text(
+          const Padding(
+            padding: EdgeInsets.only(top: 8),
+            child: Text(
               'STABLE VITALS',
               style: TextStyle(
                 color: Color(0xFFD3A83F),
@@ -599,10 +601,14 @@ class _StableVitalsHeader extends StatelessWidget {
               onPressed: () {
                 context.go('/alerts');
               },
-              icon: const Icon(
-                Icons.notifications_none,
-                color: Color(0xFFD7AF4B),
-                size: 25,
+              icon: SvgPicture.asset(
+                'assets/icons/stable_vitals_nav_bell.svg',
+                width: 25,
+                height: 25,
+                colorFilter: const ColorFilter.mode(
+                  Color(0xFFD7AF4B),
+                  BlendMode.srcIn,
+                ),
               ),
             ),
           ),
@@ -611,7 +617,6 @@ class _StableVitalsHeader extends StatelessWidget {
     );
   }
 }
-
 
 // =============================================================================
 // BACK BUTTON
@@ -639,16 +644,16 @@ class _BackButton extends StatelessWidget {
           children: [
             Icon(
               Icons.arrow_back_ios_new_rounded,
-              size: 12,
+              size: 13,
               color: Color(0xFF4D514B),
             ),
-            SizedBox(width: 3),
+            SizedBox(width: 4),
             Text(
               'Horses',
               style: TextStyle(
-                fontSize: 9,
+                fontSize: 10,
                 color: Color(0xFF353933),
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ],
@@ -681,8 +686,8 @@ class _HorseHeader extends StatelessWidget {
         // ---------------------------------------------------------------------
 
         Container(
-          width: 53,
-          height: 53,
+          width: 58,
+          height: 58,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             border: Border.all(
@@ -703,7 +708,7 @@ class _HorseHeader extends StatelessWidget {
                 color: const Color(0xFFD7D5CE),
                 child: const Icon(
                   Icons.pets_rounded,
-                  size: 28,
+                  size: 30,
                   color: Color(0xFF496252),
                 ),
               );
@@ -711,7 +716,7 @@ class _HorseHeader extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 8),
+        const SizedBox(width: 9),
 
         // ---------------------------------------------------------------------
         // NAME + LOCATION
@@ -725,21 +730,21 @@ class _HorseHeader extends StatelessWidget {
               Text(
                 horse.name,
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 24,
                   height: 1,
-                  fontWeight: FontWeight.w800,
+                  fontWeight: FontWeight.w900,
                   color: Color(0xFF173F27),
                 ),
               ),
 
-              const SizedBox(height: 3),
+              const SizedBox(height: 4),
 
               Text(
                 '${data.barn} • ${data.aisle} • Stall ${horse.stall}',
                 style: const TextStyle(
-                  fontSize: 8.2,
+                  fontSize: 9.2,
                   color: Color(0xFF343A34),
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
 
@@ -748,8 +753,9 @@ class _HorseHeader extends StatelessWidget {
               Text(
                 'Data updated ${data.updated}',
                 style: const TextStyle(
-                  fontSize: 7,
-                  color: Color(0xFF74746D),
+                  fontSize: 8,
+                  color: Color(0xFF6C6C65),
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -791,16 +797,16 @@ class _HorseAlertCard extends StatelessWidget {
           color: const Color(0xFFC7A87B),
           width: .9,
         ),
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(
+              9,
               8,
+              9,
               7,
-              8,
-              6,
             ),
             child: Row(
               children: [
@@ -809,21 +815,21 @@ class _HorseAlertCard extends StatelessWidget {
                 // -------------------------------------------------------------
 
                 Container(
-                  width: 26,
-                  height: 26,
+                  width: 29,
+                  height: 29,
                   decoration: BoxDecoration(
                     color: color,
                     borderRadius:
-                        BorderRadius.circular(4),
+                        BorderRadius.circular(5),
                   ),
                   child: const Icon(
                     Icons.priority_high_rounded,
                     color: Colors.white,
-                    size: 19,
+                    size: 21,
                   ),
                 ),
 
-                const SizedBox(width: 9),
+                const SizedBox(width: 10),
 
                 // -------------------------------------------------------------
                 // STATUS
@@ -832,21 +838,21 @@ class _HorseAlertCard extends StatelessWidget {
                 Text(
                   data.alertTitle,
                   style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.w800,
+                    fontSize: 10.5,
+                    fontWeight: FontWeight.w900,
                     color: color,
                   ),
                 ),
 
-                const SizedBox(width: 10),
+                const SizedBox(width: 11),
 
                 Container(
-                  height: 25,
+                  height: 27,
                   width: 1,
                   color: const Color(0xFFD4CEC3),
                 ),
 
-                const SizedBox(width: 9),
+                const SizedBox(width: 10),
 
                 // -------------------------------------------------------------
                 // MESSAGE
@@ -862,9 +868,9 @@ class _HorseAlertCard extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 8,
+                          fontSize: 9,
                           color: Color(0xFF6D5129),
-                          fontWeight: FontWeight.w600,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
 
@@ -874,15 +880,16 @@ class _HorseAlertCard extends StatelessWidget {
                         children: [
                           const Icon(
                             Icons.access_time_rounded,
-                            size: 11,
+                            size: 12.5,
                             color: Color(0xFF696A63),
                           ),
-                          const SizedBox(width: 3),
+                          const SizedBox(width: 4),
                           Text(
                             'Last drink ${data.lastDrink}',
                             style: const TextStyle(
-                              fontSize: 6.7,
+                              fontSize: 7.5,
                               color: Color(0xFF62635E),
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ],
@@ -901,9 +908,9 @@ class _HorseAlertCard extends StatelessWidget {
           InkWell(
             onTap: onDetailsTap,
             child: Container(
-              height: 30,
+              height: 33,
               padding: const EdgeInsets.symmetric(
-                horizontal: 8,
+                horizontal: 9,
               ),
               decoration: const BoxDecoration(
                 border: Border(
@@ -917,16 +924,16 @@ class _HorseAlertCard extends StatelessWidget {
                 children: [
                   Icon(
                     Icons.arrow_forward_ios_rounded,
-                    size: 11,
+                    size: 12,
                     color: Color(0xFF607068),
                   ),
-                  SizedBox(width: 6),
+                  SizedBox(width: 7),
                   Text(
                     'View alert details',
                     style: TextStyle(
-                      fontSize: 8,
+                      fontSize: 9,
                       color: Color(0xFF385345),
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -955,9 +962,9 @@ class _SectionTitle extends StatelessWidget {
     return Text(
       title,
       style: const TextStyle(
-        fontSize: 11,
+        fontSize: 12.5,
         height: 1,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w900,
         color: Color(0xFF234D35),
       ),
     );
@@ -991,7 +998,7 @@ class _HydrationGrid extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 6),
+            const SizedBox(width: 7),
 
             Expanded(
               child: _MetricCard(
@@ -1005,7 +1012,7 @@ class _HydrationGrid extends StatelessWidget {
           ],
         ),
 
-        const SizedBox(height: 5),
+        const SizedBox(height: 6),
 
         Row(
           children: [
@@ -1019,7 +1026,7 @@ class _HydrationGrid extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 6),
+            const SizedBox(width: 7),
 
             Expanded(
               child: _MetricCard(
@@ -1028,7 +1035,7 @@ class _HydrationGrid extends StatelessWidget {
                 value:
                     '${data.sevenDayAverage.toStringAsFixed(1)} gal/day',
                 subtitle: '',
-                valueFontSize: 15,
+                valueFontSize: 16.5,
               ),
             ),
           ],
@@ -1054,16 +1061,16 @@ class _MetricCard extends StatelessWidget {
     required this.title,
     required this.value,
     required this.subtitle,
-    this.valueFontSize = 15,
+    this.valueFontSize = 16.5,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 57,
+      height: 63,
       padding: const EdgeInsets.symmetric(
-        horizontal: 7,
-        vertical: 5,
+        horizontal: 8,
+        vertical: 6,
       ),
       decoration: BoxDecoration(
         color: const Color(0xFFFAF9F6),
@@ -1071,17 +1078,17 @@ class _MetricCard extends StatelessWidget {
           color: const Color(0xFFE0DED8),
           width: .7,
         ),
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
         children: [
           Icon(
             icon,
-            size: 24,
+            size: 26,
             color: const Color(0xFF385D4A),
           ),
 
-          const SizedBox(width: 7),
+          const SizedBox(width: 8),
 
           Expanded(
             child: Column(
@@ -1095,9 +1102,9 @@ class _MetricCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: const TextStyle(
-                    fontSize: 7,
-                    color: Color(0xFF55564F),
-                    fontWeight: FontWeight.w500,
+                    fontSize: 8,
+                    color: Color(0xFF4B4C45),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
 
@@ -1121,8 +1128,9 @@ class _MetricCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 6,
-                      color: Color(0xFF777870),
+                      fontSize: 6.8,
+                      color: Color(0xFF6F7069),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
               ],
@@ -1150,12 +1158,12 @@ class _UsualHydrationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 62,
+      height: 68,
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(
-        8,
-        5,
-        8,
+        9,
+        6,
+        9,
         4,
       ),
       decoration: BoxDecoration(
@@ -1164,7 +1172,7 @@ class _UsualHydrationCard extends StatelessWidget {
           color: const Color(0xFF83988C),
           width: .9,
         ),
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
         children: [
@@ -1172,20 +1180,20 @@ class _UsualHydrationCard extends StatelessWidget {
             child: Row(
               children: [
                 Container(
-                  width: 37,
-                  height: 37,
+                  width: 40,
+                  height: 40,
                   decoration: const BoxDecoration(
                     color: Color(0xFF075034),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
-                    Icons.water_drop_outlined,
+                    Icons.water_drop_rounded,
                     color: Colors.white,
-                    size: 23,
+                    size: 25,
                   ),
                 ),
 
-                const SizedBox(width: 9),
+                const SizedBox(width: 10),
 
                 Expanded(
                   child: Column(
@@ -1197,9 +1205,9 @@ class _UsualHydrationCard extends StatelessWidget {
                       const Text(
                         'USUAL BY 10:42 AM',
                         style: TextStyle(
-                          fontSize: 6.2,
+                          fontSize: 7,
                           color: Color(0xFF52675B),
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       const SizedBox(height: 1),
@@ -1207,10 +1215,10 @@ class _UsualHydrationCard extends StatelessWidget {
                         '${data.usualByNowMin.toStringAsFixed(1)}–'
                         '${data.usualByNowMax.toStringAsFixed(1)} gal',
                         style: const TextStyle(
-                          fontSize: 14.5,
+                          fontSize: 16,
                           height: 1,
                           color: Color(0xFF27342D),
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ],
@@ -1218,12 +1226,12 @@ class _UsualHydrationCard extends StatelessWidget {
                 ),
 
                 Container(
-                  height: 34,
+                  height: 37,
                   width: .8,
                   color: const Color(0xFFC8CDC8),
                 ),
 
-                const SizedBox(width: 9),
+                const SizedBox(width: 10),
 
                 Expanded(
                   child: Column(
@@ -1235,9 +1243,9 @@ class _UsualHydrationCard extends StatelessWidget {
                       const Text(
                         'USUAL FULL DAY',
                         style: TextStyle(
-                          fontSize: 6.2,
+                          fontSize: 7,
                           color: Color(0xFF52675B),
-                          fontWeight: FontWeight.w700,
+                          fontWeight: FontWeight.w800,
                         ),
                       ),
                       const SizedBox(height: 1),
@@ -1245,10 +1253,10 @@ class _UsualHydrationCard extends StatelessWidget {
                         '${data.usualFullDayMin.toStringAsFixed(0)}–'
                         '${data.usualFullDayMax.toStringAsFixed(0)} gal',
                         style: const TextStyle(
-                          fontSize: 14.5,
+                          fontSize: 16,
                           height: 1,
                           color: Color(0xFF27342D),
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w900,
                         ),
                       ),
                     ],
@@ -1262,8 +1270,9 @@ class _UsualHydrationCard extends StatelessWidget {
             "Based on ${horse.name}'s individual drinking pattern",
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: 5.7,
-              color: Color(0xFF626861),
+              fontSize: 6.3,
+              color: Color(0xFF62685F),
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],
@@ -1304,7 +1313,7 @@ class _HydrationChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 137,
+      height: 145,
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color(0xFFFAF9F6),
@@ -1312,7 +1321,7 @@ class _HydrationChart extends StatelessWidget {
           color: const Color(0xFFE1DED6),
           width: .8,
         ),
-        borderRadius: BorderRadius.circular(3),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Stack(
         children: [
@@ -1321,13 +1330,14 @@ class _HydrationChart extends StatelessWidget {
           // -------------------------------------------------------------------
 
           const Positioned(
-            left: 5,
-            top: 7,
+            left: 6,
+            top: 8,
             child: Text(
               'Gallons',
               style: TextStyle(
-                fontSize: 6,
-                color: Color(0xFF66675F),
+                fontSize: 6.8,
+                color: Color(0xFF585950),
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -1337,10 +1347,10 @@ class _HydrationChart extends StatelessWidget {
           // -------------------------------------------------------------------
 
           Positioned(
-            left: 24,
+            left: 25,
             right: 7,
-            top: 27,
-            bottom: 27,
+            top: 28,
+            bottom: 28,
             child: CustomPaint(
               painter: _HydrationChartPainter(
                 status:
@@ -1354,8 +1364,8 @@ class _HydrationChart extends StatelessWidget {
           // -------------------------------------------------------------------
 
           Positioned(
-            top: 6,
-            left: 80,
+            top: 7,
+            left: 82,
             child: _LastDrinkLabel(
               text: 'Last drink ${data.lastDrink}',
             ),
@@ -1366,7 +1376,7 @@ class _HydrationChart extends StatelessWidget {
           // -------------------------------------------------------------------
 
           const Positioned(
-            left: 23,
+            left: 24,
             right: 6,
             bottom: 8,
             child: Row(
@@ -1407,7 +1417,7 @@ class _HydrationChartPainter extends CustomPainter {
   ) {
     final paint = Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.3
+      ..strokeWidth = 1.5
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round
       ..color = const Color(0xFF305A47);
@@ -1470,7 +1480,7 @@ class _HydrationChartPainter extends CustomPainter {
         size.width * .34,
         size.height * .43,
       ),
-      2.3,
+      2.8,
       pointPaint,
     );
 
@@ -1489,7 +1499,7 @@ class _HydrationChartPainter extends CustomPainter {
         size.width,
         size.height * .43,
       ),
-      2.5,
+      3,
       lastPointPaint,
     );
   }
@@ -1517,8 +1527,8 @@ class _LastDrinkLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
-        horizontal: 5,
-        vertical: 3,
+        horizontal: 6,
+        vertical: 3.5,
       ),
       decoration: const BoxDecoration(
         color: Color(0xFF7E1016),
@@ -1532,8 +1542,8 @@ class _LastDrinkLabel extends StatelessWidget {
         text,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 6,
-          fontWeight: FontWeight.w700,
+          fontSize: 6.8,
+          fontWeight: FontWeight.w800,
         ),
       ),
     );
@@ -1555,11 +1565,11 @@ class _AxisLabel extends StatelessWidget {
       text,
       textAlign: TextAlign.center,
       style: const TextStyle(
-        fontSize: 5.5,
+        fontSize: 6.2,
         height: 1.1,
-        color: Color(0xFF686A63),
+        fontWeight: FontWeight.w500,
+        color: Color(0xFF5C5D56),
       ),
     );
   }
 }
-

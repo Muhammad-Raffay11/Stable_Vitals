@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tabler_icons/tabler_icons.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AppBottomNavigation extends StatelessWidget {
   final int currentIndex;
@@ -26,34 +26,28 @@ class AppBottomNavigation extends StatelessWidget {
               _NavItem(
                 index: 0,
                 currentIndex: currentIndex,
-                icon: TablerIcons.home,
-                selectedIcon: TablerIcons.home,
+                assetPath: 'assets/icons/stable_vitals_nav_barn.svg',
                 label: 'Barn',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 1,
                 currentIndex: currentIndex,
-                icon: TablerIcons.bell,
-                selectedIcon: TablerIcons.bell,
+                assetPath: 'assets/icons/stable_vitals_nav_bell.svg',
                 label: 'Alerts',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 2,
                 currentIndex: currentIndex,
-                icon: TablerIcons.horse_toy,
-                // No filled variant exists for "horse" in Tabler,
-                // so the same glyph is reused for the selected state.
-                selectedIcon: TablerIcons.horse_toy,
+                assetPath: 'assets/icons/stable_vitals_nav_horse.svg',
                 label: 'Horses',
                 onTap: onDestinationSelected,
               ),
               _NavItem(
                 index: 3,
                 currentIndex: currentIndex,
-                icon: TablerIcons.settings,
-                selectedIcon: TablerIcons.settings_filled,
+                assetPath: 'assets/icons/stable_vitals_nav_settings.svg',
                 label: 'Settings',
                 onTap: onDestinationSelected,
               ),
@@ -69,8 +63,7 @@ class _NavItem extends StatelessWidget {
   final int index;
   final int currentIndex;
 
-  final IconData icon;
-  final IconData selectedIcon;
+  final String assetPath;
   final String label;
 
   final ValueChanged<int> onTap;
@@ -78,8 +71,7 @@ class _NavItem extends StatelessWidget {
   const _NavItem({
     required this.index,
     required this.currentIndex,
-    required this.icon,
-    required this.selectedIcon,
+    required this.assetPath,
     required this.label,
     required this.onTap,
   });
@@ -88,18 +80,24 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final selected = index == currentIndex;
 
+    final color = selected
+        ? const Color(0xFFD4A83E)
+        : const Color(0xFFB8BDB5);
+
     return Expanded(
       child: InkWell(
         onTap: () => onTap(index),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              selected ? selectedIcon : icon,
-              size: selected ? 21 : 19,
-              color: selected
-                  ? const Color(0xFFD4A83E)
-                  : const Color(0xFFB8BDB5),
+            SvgPicture.asset(
+              assetPath,
+              width: selected ? 21 : 19,
+              height: selected ? 21 : 19,
+              colorFilter: ColorFilter.mode(
+                color,
+                BlendMode.srcIn,
+              ),
             ),
             const SizedBox(height: 2),
             Text(
@@ -109,9 +107,7 @@ class _NavItem extends StatelessWidget {
                 fontWeight: selected
                     ? FontWeight.w700
                     : FontWeight.w400,
-                color: selected
-                    ? const Color(0xFFD4A83E)
-                    : const Color(0xFFB8BDB5),
+                color: color,
               ),
             ),
           ],

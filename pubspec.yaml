@@ -37,6 +37,7 @@ dependencies:
   go_router: ^17.5.0
   google_fonts: ^8.2.1
   tabler_icons: ^2.5.0+1
+  flutter_svg: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +63,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/stable_vitals_logo_wide_1024.png
+    - assets/images/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
